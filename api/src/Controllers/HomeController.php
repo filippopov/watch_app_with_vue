@@ -43,10 +43,10 @@ class HomeController
 
     public function homePage()
     {
-        if (!$this->authenticationService->isAuthenticated())
-        {
-            throw new ApplicationException('User is not authenticated!');
-        }
+//        if (!$this->authenticationService->isAuthenticated())
+//        {
+//            throw new ApplicationException('User is not authenticated!');
+//        }
 
         $userId = (int) $this->post->get('userId');
         $data = $this->watchService->getWatchesModelsByUserId($userId);
