@@ -4,8 +4,8 @@
       <legend>Login</legend>
 
       <p class="field">
-        <label for="email">Email</label>
-        <span class="input">
+      <label for="email">Email</label>
+      <span class="input">
           <input type="email" name="email" id="email">
           <span class="actions"></span>
           <i class="fas fa-user"></i>
