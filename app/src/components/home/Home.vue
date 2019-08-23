@@ -7,6 +7,7 @@
 </template>
 
 <script>
+  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
   import homePage from '../../home-config/homePage'
     export default {
       name: "Home",
@@ -14,6 +15,9 @@
         return {
           links: []
         }
+      },
+      computed: {
+        ...mapGetters('authenticationServices', ['isAuthenticated']),
       },
       created(){
         this.links = homePage.links;

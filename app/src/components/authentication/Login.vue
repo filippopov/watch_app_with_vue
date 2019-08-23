@@ -1,34 +1,92 @@
 <template>
-  <form action="#" method="post">
+  <form @submit.prevent="onLogin">
     <fieldset>
       <legend>Login</legend>
 
       <p class="field">
       <label for="email">Email</label>
       <span class="input">
-          <input type="email" name="email" id="email">
+          <input type="text" v-model.trim="$v.email.$model" name="email" id="email">
           <span class="actions"></span>
           <i class="fas fa-user"></i>
         </span>
       </p>
 
+      <p v-bind:class="['error', {show: isHidden}]" v-if="!$v.email.required">Email is required.</p>
+      <p v-bind:class="['error', {show: isHidden}]" v-if="!$v.email.email">Please enter valid email.</p>
+
       <p class="field">
         <label for="password">Password</label>
         <span class="input">
-          <input type="password" name="password" id="password">
+          <input type="password" v-model.trim="$v.password.$model" name="password" id="password">
           <span class="actions"></span>
           <i class="fas fa-key"></i>
         </span>
       </p>
+      <p v-bind:class="['error', {show: isHidden}]" v-if="!$v.password.required">Password is required.</p>
+      <p v-bind:class="['error', {show: isHidden}]" v-if="!$v.password.minLength">Password must have at least {{ $v.password.$params.minLength.min }} letters.</p>
 
       <input type="submit" value="Login">
+      <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
+      <p v-bind:class="['error', {show: isHidden}]">{{getMessage}}</p>
     </fieldset>
   </form>
 </template>
 
 <script>
+    import {
+      required,
+      minLength,
+      maxLength,
+      email,
+      sameAs
+    } from 'vuelidate/lib/validators'
+    import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
     export default {
-        name: "Login"
+      name: "Login",
+      data(){
+        return {
+          email: '',
+          password: '',
+          submitStatus: null,
+          isHidden: false
+        }
+      },
+      computed: {
+        ...mapGetters('authenticationServices', ['getMessage', 'getUser', 'getResult', 'isAuthenticated']),
+      },
+      validations: {
+        password: {
+          required,
+          minLength: minLength(6),
+        },
+        email: {
+          email,
+          required
+        }
+      },
+      methods: {
+        ...mapActions('authenticationServices', ['loginUser']),
+        onLogin() {
+
+          this.$v.$touch();
+
+          if (this.$v.$invalid) {
+            this.submitStatus = 'ERROR';
+            this.isHidden = true;
+          } else {
+            let params = {
+              'email': this.email,
+              'password': this.password,
+            };
+
+            this.loginUser(params);
+            this.$forceUpdate();
+            this.submitStatus = '';
+            this.isHidden = true;
+          }
+        }
+      }
     }
 </script>
 
@@ -113,6 +171,29 @@
 
   .input input:focus + .actions + .fas {
     color: #090;
+  }
+
+  input[type=submit] {
+    border: 1px solid black;
+    background: #060;
+    color: #FFF;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+  }
+
+  .error,
+  .typo__p
+  {
+    color: red;
+    text-align: center;
+  }
+
+  .error {
+    display: none;
+  }
+
+  .show {
+    display: block;
   }
 
   @media screen and (max-width: 800px) {

@@ -41,6 +41,7 @@
         <p v-bind:class="['error', {show: isHidden}]">{{getMessage}}</p>
       </fieldset>
     </form>
+    <template v-if="isAuthenticated">Hi</template>
   </div>
 
 </template>
@@ -67,7 +68,7 @@
         }
       },
       computed: {
-        ...mapGetters('authenticationServices', ['getMessage', 'getUser', 'getResult']),
+        ...mapGetters('authenticationServices', ['getMessage', 'getUser', 'getResult', 'isAuthenticated']),
       },
       validations: {
         password: {
@@ -99,6 +100,7 @@
             };
 
             this.registerUser(params);
+            this.$forceUpdate();
             this.submitStatus = '';
             this.isHidden = true;
           }

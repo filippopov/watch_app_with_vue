@@ -9,9 +9,32 @@
 
       <nav class="main">
         <ul>
-          <li><router-link :to="{name: 'login'}">Login</router-link></li>
-          <li><router-link :to="{name: 'register'}">Register</router-link></li>
-          <!--<li><a href="#">Home</a></li>-->
+          <li><router-link :to="{name: 'home'}">Home</router-link></li>
+          <template v-if="!isAuthenticated">
+            <li><router-link :to="{name: 'login'}">Login</router-link></li>
+            <li><router-link :to="{name: 'register'}">Register</router-link></li>
+          </template>
+          <template v-else>
+            <li>
+              <a href="#">My Watches</a>
+              <ul>
+                <li>
+                  <a href="#">Watch Collection</a>
+                </li>
+                <li><a href="#">Add To Watch Collection</a></li>
+              </ul>
+            </li>
+            <li><a @click="onLogout" id="logout">Logout</a></li>
+          </template>
+
+
+
+
+
+
+
+
+
           <!--<li><a href="#">About</a></li>-->
           <!--<li>-->
             <!--<a href="#">Products</a>-->
@@ -44,8 +67,18 @@
 </template>
 
 <script>
+  import {mapState, mapGetters, mapMutations, mapActions} from 'vuex'
   export default {
-    name: "PageHeader"
+    name: "PageHeader",
+    computed: {
+      ...mapGetters('authenticationServices', ['isAuthenticated']),
+    },
+    methods: {
+      ...mapActions('authenticationServices', ['logoutUser']),
+      onLogout(){
+        this.logoutUser();
+      }
+    }
   }
 </script>
 
@@ -71,6 +104,7 @@
 
   nav.main {
     display: flex;
+    z-index: 100000;
   }
 
   nav.main ul {
@@ -133,6 +167,10 @@
 
   #main-nav-toggle {
     display: none;
+  }
+
+  #logout {
+    cursor: pointer;
   }
 
   @media screen and (max-width: 800px) {
