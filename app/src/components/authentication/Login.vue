@@ -28,7 +28,6 @@
 
       <input type="submit" value="Login">
       <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
-      <p v-bind:class="['error', {show: isHidden}]">{{getMessage}}</p>
     </fieldset>
   </form>
 </template>
@@ -53,7 +52,7 @@
         }
       },
       computed: {
-        ...mapGetters('authenticationServices', ['getMessage', 'getUser', 'getResult', 'isAuthenticated']),
+        ...mapGetters('authenticationServices', ['isAuthenticated']),
       },
       validations: {
         password: {
@@ -85,6 +84,11 @@
             this.submitStatus = '';
             this.isHidden = true;
           }
+        }
+      },
+      created(){
+        if (this.isAuthenticated) {
+          this.$router.push('/');
         }
       }
     }

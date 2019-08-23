@@ -1,6 +1,7 @@
-import {REGISTER_USER, LOGIN_USER, LOGOUT_USER, IS_AUTHENTICATED} from './../mutattion-types'
+import {REGISTER_USER, LOGIN_USER, LOGOUT_USER} from './../mutattion-types'
 import {ROOT_URL} from './../constants'
 import router from '@/router'
+import notify from './../plugins/notify'
 
 const Register = data => {
   return {
@@ -23,12 +24,6 @@ const Logout = data => {
   }
 };
 
-const Authenticate = () => {
-  return {
-    type: IS_AUTHENTICATED
-  }
-};
-
 export default {
   state: {
     user: {
@@ -44,7 +39,7 @@ export default {
     getMessage: state => state.message,
     getResult: state => state.success,
     isAuthenticated: state => {
-      return state.isAuthenticated || (sessionStorage.getItem('session_id') && sessionStorage.getItem('user_id'));
+      return state.isAuthenticated || sessionStorage.getItem('session_id');
     },
     getSessionId: () => {
       return sessionStorage.getItem('session_id');
@@ -80,18 +75,9 @@ export default {
       state.isAuthenticated = false;
       state.user.session_id = '';
       state.user.user_id = '';
-    },
-    IS_AUTHENTICATED: (state) => {
-      let is_authenticated = false;
-
-      if (sessionStorage.getItem('session_id') && sessionStorage.getItem('user_id')) {
-        is_authenticated = true;
-        state.user.session_id = sessionStorage.getItem('session_id');
-        state.user.user_id = sessionStorage.getItem('user_id');
-      }
-
-      state.isAuthenticated = is_authenticated;
-    },
+      sessionStorage.removeItem("session_id");
+      sessionStorage.removeItem("user_id");
+    }
   },
   actions: {
     registerUser(context, params) {
@@ -106,9 +92,12 @@ export default {
       }).then(res => res.json()).then((data) => {
         context.commit(Register(data));
         if (data.success) {
+          notify.showInfo(data.message);
           sessionStorage.setItem('session_id', data.data.session_id);
           sessionStorage.setItem('user_id', data.data.user_id);
-          router.push('/');
+          router.push('/watch-collection');
+        } else {
+          notify.showError(data.message);
         }
       })
     },
@@ -122,10 +111,14 @@ export default {
         body: formData,
       }).then(res => res.json()).then((data) => {
         context.commit(Login(data));
+
         if (data.success) {
+          notify.showInfo(data.message);
           sessionStorage.setItem('session_id', data.data.session_id);
           sessionStorage.setItem('user_id', data.data.user_id);
-          router.push('/');
+          router.push('/watch-collection');
+        } else {
+          notify.showError(data.message);
         }
       })
     },
@@ -138,14 +131,14 @@ export default {
       }).then(res => res.json()).then((data) => {
         context.commit(Logout(data));
         if (data.success) {
-          sessionStorage.removeItem("session_id");
-          sessionStorage.removeItem("user_id");
-          router.push('/login');
+          notify.showInfo(data.message);
+        } else {
+          notify.showError(data.message);
         }
+
+        router.push('/login');
+        location.reload()
       })
-    },
-    isAuthenticated(context) {
-      context.commit(Authenticate())
     }
   }
 }

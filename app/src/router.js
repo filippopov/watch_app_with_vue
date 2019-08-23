@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './components/home/Home'
 import Register from './components/authentication/Register'
 import Login from './components/authentication/Login'
+import WatchCollection from './components/watches/WatchCollection'
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/watch-collection",
+      name: "watch-collection",
+      component: WatchCollection
     },
     // {
     //   path: '/about',

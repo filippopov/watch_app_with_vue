@@ -16,24 +16,16 @@
           </template>
           <template v-else>
             <li>
-              <a href="#">My Watches</a>
+              <router-link :to="{name: 'watch-collection'}">My Watches</router-link>
               <ul>
                 <li>
-                  <a href="#">Watch Collection</a>
+                  <router-link :to="{name: 'watch-collection'}">Watch Collection</router-link>
                 </li>
                 <li><a href="#">Add To Watch Collection</a></li>
               </ul>
             </li>
             <li><a @click="onLogout" id="logout">Logout</a></li>
           </template>
-
-
-
-
-
-
-
-
 
           <!--<li><a href="#">About</a></li>-->
           <!--<li>-->
@@ -77,6 +69,7 @@
       ...mapActions('authenticationServices', ['logoutUser']),
       onLogout(){
         this.logoutUser();
+        this.$router.push('/login');
       }
     }
   }
