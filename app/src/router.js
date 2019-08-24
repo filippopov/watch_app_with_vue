@@ -4,6 +4,9 @@ import Home from './components/home/Home'
 import Register from './components/authentication/Register'
 import Login from './components/authentication/Login'
 import WatchCollection from './components/watches/WatchCollection'
+import WatchDetails from './components/watches/WatchDetails'
+import WatchCreate from './components/watches/WatchCreate'
+import WatchEdit from './components/watches/WatchEdit'
 
 Vue.use(Router);
 
@@ -27,17 +30,24 @@ export default new Router({
       component: Login
     },
     {
-      path: "/watch-collection",
-      name: "watch-collection",
+      path: "/watch/collection",
+      name: "watchCollection",
       component: WatchCollection
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    // }
+    {
+      path: "/watch/create",
+      name: "watchCreate",
+      component: WatchCreate
+    },
+    {
+      path: "/watch/details/:id",
+      name: "watchDetails",
+      component: WatchDetails
+    },
+    {
+      path: "/watch/edit/:id",
+      name: "watchEdit",
+      component: WatchEdit
+    }
   ]
 })

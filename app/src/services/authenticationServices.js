@@ -95,7 +95,7 @@ export default {
           notify.showInfo(data.message);
           sessionStorage.setItem('session_id', data.data.session_id);
           sessionStorage.setItem('user_id', data.data.user_id);
-          router.push('/watch-collection');
+          router.push('/watch/collection');
         } else {
           notify.showError(data.message);
         }
@@ -116,7 +116,7 @@ export default {
           notify.showInfo(data.message);
           sessionStorage.setItem('session_id', data.data.session_id);
           sessionStorage.setItem('user_id', data.data.user_id);
-          router.push('/watch-collection');
+          router.push('/watch/collection');
         } else {
           notify.showError(data.message);
         }

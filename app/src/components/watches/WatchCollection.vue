@@ -6,18 +6,18 @@
 
     <ul class="list-watch">
       <li class="item" v-for="(watchData, index) in this.getWatchCollection" :key="index">
-        <a :href="watchData.watch_id">
-                <span class="watch-image">
-                    <img v-if="watchData.path" :src="`http://localhost${watchData.path}`" alt="">
-                    <img v-else src="http://localhost/watch_app/api/uploades/No_image.png" alt="">
-                </span>
+        <router-link :to="{name: 'watchDetails', params: {id: watchData.watch_id}}">
+          <span class="watch-image">
+            <img v-if="watchData.path" :src="`http://localhost${watchData.path}`" alt="">
+            <img v-else src="http://localhost/watch_app/api/uploades/No_image.png" alt="">
+          </span>
           <span class="content">
-                <span class="watch-info">
-                    <span class="brand">{{watchData.brands_name}}</span>
-                    <span class="model">{{watchData.model}}</span>
-                </span>
+            <span class="watch-info">
+              <span class="brand">{{watchData.brands_name}}</span>
+              <span class="model">{{watchData.model}}</span>
             </span>
-        </a>
+          </span>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -41,8 +41,6 @@
         }
 
         this.loadCollection();
-
-        console.log(this.getWatchCollection);
       }
     }
 </script>

@@ -16,12 +16,14 @@
           </template>
           <template v-else>
             <li>
-              <router-link :to="{name: 'watch-collection'}">My Watches</router-link>
+              <router-link :to="{name: 'watchCollection'}">My Watches</router-link>
               <ul>
                 <li>
-                  <router-link :to="{name: 'watch-collection'}">Watch Collection</router-link>
+                  <router-link :to="{name: 'watchCollection'}">Watch Collection</router-link>
                 </li>
-                <li><a href="#">Add To Watch Collection</a></li>
+                <li>
+                  <router-link :to="{name: 'watchCreate'}">Add To Watch Collection</router-link>
+                </li>
               </ul>
             </li>
             <li><a @click="onLogout" id="logout">Logout</a></li>
