@@ -5,8 +5,8 @@
     </div>
     <div class="watch-functions">
       <router-link title="Back to home" :to="{name: 'watchCollection'}"><i  class="fa fa-backward"></i></router-link>
-      <a href="#/editWatch/"><i title="Edit Watch"  class="fa fa-edit"></i></a>
-      <a href="#/deleteWatch/" id="delete-button"><i data-toggle="modal" data-target="#exampleModal" title="Delete Watch" class="fa fa-trash"></i></a>
+      <router-link title="Edit Watch" :to="{name: 'watchEdit', params: {id: this.$route.params.id}}"><i class="fa fa-edit"></i></router-link>
+      <a style="cursor: pointer" @click="deleteWatch" id="delete-button"><i data-toggle="modal" data-target="#exampleModal" title="Delete Watch" class="fa fa-trash"></i></a>
     </div>
     <div class="watch-container">
       <div v-if="watchPictures" class="cards-layout masonry">
@@ -92,7 +92,10 @@
         ...mapGetters('watchServices', ['getWatchData', 'watchPictures']),
       },
       methods: {
-        ...mapActions('watchServices', ['getWatchById', 'getWatchPictures']),
+        ...mapActions('watchServices', ['getWatchById', 'getWatchPictures', 'deleteWatchAction']),
+        deleteWatch() {
+          this.deleteWatchAction(this.$route.params.id);
+        }
       },
       created() {
         if (!this.isAuthenticated) {

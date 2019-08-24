@@ -1,4 +1,4 @@
-import {LOAD_COLLECTION, LOAD_WATCH_DATA, LOAD_WATCH_PICTURES, LOAD_WATCH_CREATE_FORM_DATA} from './../mutattion-types'
+import {LOAD_COLLECTION, LOAD_WATCH_DATA, LOAD_WATCH_PICTURES, LOAD_WATCH_CREATE_FORM_DATA, LOAD_WATCH_EDIT_FORM_DATA} from './../mutattion-types'
 import {ROOT_URL} from './../constants'
 import router from '@/router'
 import notify from './../plugins/notify'
@@ -31,18 +31,29 @@ const GetCreateFormData = data => {
   }
 };
 
+const GetEditFormData = data => {
+  return {
+    type: LOAD_WATCH_EDIT_FORM_DATA,
+    data
+  }
+};
+
 export default {
   state: {
     watchCollection: [],
     watch: {},
     watchPictures: {},
-    watchCreateFormData: {}
+    watchCreateFormData: {},
+    watchEditFormData: {},
+    editFormData: {}
   },
   getters: {
     getWatchCollection: state => state.watchCollection,
     getWatchData: state => state.watch,
     watchPictures: state => state.watchPictures,
-    watchCreateFormData: state => state.watchCreateFormData
+    watchCreateFormData: state => state.watchCreateFormData,
+    watchEditFormData: state => state.watchEditFormData,
+    editFormData: state => state.editFormData
   },
   mutations: {
     LOAD_COLLECTION: (state, payload) => {
@@ -56,6 +67,10 @@ export default {
     },
     LOAD_WATCH_CREATE_FORM_DATA: (state, payload) => {
       state.watchCreateFormData = payload.data.data;
+    },
+    LOAD_WATCH_EDIT_FORM_DATA: (state, payload) => {
+      state.watchEditFormData = payload.data.data;
+      state.editFormData = payload.data.data.watchData[0];
     }
   },
   actions: {
@@ -164,6 +179,63 @@ export default {
         body: formData,
       }).then(res => res.json()).then((data) => {
         console.log(data);
+        if (data.success) {
+          notify.showInfo(data.message);
+          router.push('/watch/collection')
+        } else {
+          notify.showError(data.message);
+        }
+      })
+    },
+    getEditWatchFormData(context, id) {
+      let formData = new FormData();
+      formData.append('session_id', sessionStorage.getItem('session_id'));
+      formData.append('user_id', sessionStorage.getItem('user_id'));
+      formData.append('watch_id', id);
+
+      fetch(`${ROOT_URL}/home/getEditWatchForm`, {
+        method: 'POST',
+        body: formData,
+      }).then(res => res.json()).then((data) => {
+        if (data.success) {
+          // notify.showInfo(data.message);
+          context.commit(GetEditFormData(data));
+        } else {
+          // notify.showError(data.message);
+        }
+      })
+    },
+    editWatchAction(context, params) {
+      let formData = new FormData();
+      formData.append('session_id', sessionStorage.getItem('session_id'));
+      formData.append('userId', sessionStorage.getItem('user_id'));
+      formData.append('watch_id', params.id);
+      formData.append('brand', params.brand);
+      formData.append('model', params.model);
+      formData.append('reference_number', params.referenceNumber);
+
+      fetch(`${ROOT_URL}/home/editWatch`, {
+        method: 'POST',
+        body: formData,
+      }).then(res => res.json()).then((data) => {
+        if (data.success) {
+          notify.showInfo(data.message);
+          router.push('/watch/collection')
+        } else {
+          notify.showError(data.message);
+        }
+      })
+    },
+    deleteWatchAction(context, id) {
+      let formData = new FormData();
+      formData.append('session_id', sessionStorage.getItem('session_id'));
+      formData.append('userId', sessionStorage.getItem('user_id'));
+      formData.append('watch_id', id);
+
+      fetch(`${ROOT_URL}/home/deleteWatch`, {
+        method: 'POST',
+        body: formData,
+      }).then(res => res.json()).then((data) => {
         if (data.success) {
           notify.showInfo(data.message);
           router.push('/watch/collection')

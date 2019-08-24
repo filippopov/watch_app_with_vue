@@ -260,13 +260,10 @@
               'model': this.model,
               'referenceNumber': this.referenceNumber,
             };
-            console.log(params)
             this.addWatchAction(params);
-            // this.submitStatus = '';
-            // this.isHidden = true;
+            this.submitStatus = '';
+            this.isHidden = true;
           }
-
-          console.log('test');
         }
       },
       created() {
