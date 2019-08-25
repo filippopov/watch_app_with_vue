@@ -159,6 +159,9 @@ class HomeController
         $numberOfJewels = $this->post->get('number_of_jewels');
         $userId = $this->post->get('userId');
 
+		$watchFunctions = explode(',', $watchFunctions);
+		$watchCharacteristics = explode(',', $watchCharacteristics);
+
         $data = $this->watchService->createWatch($baseCaliber, $bezelMaterial, $braceletColor, $braceletMaterial, $brand,
             $caliber, $claspMaterial, $caseDiameter, $caseMaterial, $clasp, $dial, $dialNumerals, $frequency,
             $gender, $glass, $model, $movement, $picture, $powerReserve, $referenceNumber, $thickness,

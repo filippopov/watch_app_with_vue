@@ -72,10 +72,14 @@
         <td data-label="Power reserve (h)">{{watchInfo.power_reserve}}</td>
         <td data-label="Number of jewels">{{watchInfo.number_of_jewels}}</td>
         <td data-label="Frequency (A/h)">{{watchInfo.frequency}}</td>
-        <td v-if="watchInfo.watchFunctions" data-label="Functions">{{watchInfo.watchFunctions}}</td>
+        <td v-if="watchFunctions.length != 0" data-label="Functions">
+          <span v-for="watchFunction in watchFunctions">{{watchFunction.watch_function_name}}, </span>
+        </td>
         <td v-else data-label="Functions">No Functions</td>
-        <td v-if="watchInfo.watchCharacteristics" data-label="Others">{{watchInfo.watchCharacteristics}}</td>
-        <td v-else data-label="Others">No Others</td>
+        <td v-if="watchCharacteristics.length != 0" data-label="Characteristics">
+          <span v-for="watchCharacteristic in watchCharacteristics">{{watchCharacteristic.watch_characteristic_name}}, </span>
+        </td>
+        <td v-else data-label="Functions">No Others</td>
       </tr>
       </tbody>
     </table>
@@ -89,10 +93,10 @@
       name: "WatchDetails",
       computed: {
         ...mapGetters('authenticationServices', ['isAuthenticated']),
-        ...mapGetters('watchServices', ['getWatchData', 'watchPictures']),
+        ...mapGetters('watchServices', ['getWatchData', 'watchPictures', 'watchFunctions', 'watchCharacteristics']),
       },
       methods: {
-        ...mapActions('watchServices', ['getWatchById', 'getWatchPictures', 'deleteWatchAction']),
+        ...mapActions('watchServices', ['getWatchById', 'getWatchPictures', 'deleteWatchAction', 'getWatchFunctions', 'getWatchCharacteristics']),
         deleteWatch() {
           this.deleteWatchAction(this.$route.params.id);
         }
@@ -103,7 +107,9 @@
         }
 
         this.getWatchById(this.$route.params.id);
-        this.getWatchPictures(this.$route.params.id)
+        this.getWatchPictures(this.$route.params.id);
+        this.getWatchFunctions(this.$route.params.id);
+        this.getWatchCharacteristics(this.$route.params.id);
       }
     }
 </script>

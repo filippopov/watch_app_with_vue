@@ -18,200 +18,132 @@
       <p v-bind:class="['error', {show: isHidden}]" v-if="!$v.model.required">Model is required.</p>
 
       <label for="reference-number">Reference number</label>
-      <input type="text" id="reference-number" v-model.trim="$v.referenceNumber.$model"  name="reference-number" class="form-control" placeholder="Enter ...">
+      <input type="text" id="reference-number" v-model.trim="$v.referenceNumber.$model" class="form-control" placeholder="Enter ...">
+
+      <h3>Enter the most important details</h3>
+
+      <label for="gender">Gender</label>
+      <select id="gender" v-model.trim="$v.gender.$model">
+        <option value="">Please select</option>
+        <option v-for="gender in watchCreateFormData.genders" :key="gender.id" :value="gender.id">{{gender.name}}</option>
+      </select>
+
+      <label for="movement">Movement</label>
+
+      <select id="movement" v-model.trim="$v.movement.$model">
+        <option value="">Please select</option>
+        <option v-for="movement in watchCreateFormData.movements" :key="movement.id" :value="movement.id">{{movement.name}}</option>
+      </select>
+
+      <label for="case-material">Case Material</label>
+
+      <select id="case-material" v-model.trim="$v.caseMaterial.$model">
+        <option value="">Please select</option>
+        <option v-for="caseMaterial in watchCreateFormData.caseMaterials" :key="caseMaterial.id" :value="caseMaterial.id">{{caseMaterial.name}}</option>
+      </select>
+
+      <label for="case-material">Bracelet Material</label>
+
+      <select id="bracelet-material" v-model.trim="$v.braceletMaterial.$model">
+        <option value="">Please select</option>
+        <option v-for="braceletMaterial in watchCreateFormData.braceletMaterials" :key="braceletMaterial.id" :value="braceletMaterial.id">{{braceletMaterial.name}}</option>
+      </select>
+
+      <label for="case-diameter">Case diameter</label>
+      <input type="text" id="case-diameter" v-model.trim="$v.caseDiameter.$model" class="form-control" placeholder="Enter ...">
+
+      <h3>Bracelet/strap</h3>
+
+      <label for="bracelet-color">Bracelet Color</label>
+      <select id="bracelet-color" v-model.trim="$v.braceletColor.$model">
+        <option value="">Please select</option>
+        <option v-for="braceletColor in watchCreateFormData.braceletColors" :key="braceletColor.id" :value="braceletColor.id">{{braceletColor.name}}</option>
+      </select>
+
+      <label for="clasp-material">Clasp Material</label>
+      <select id="clasp-material" v-model.trim="$v.claspMaterial.$model">
+        <option value="">Please select</option>
+        <option v-for="claspMaterial in watchCreateFormData.claspMaterials" :key="claspMaterial.id" :value="claspMaterial.id">{{claspMaterial.name}}</option>
+      </select>
+
+      <label for="clasp">Clasp</label>
+      <select id="clasp" v-model.trim="$v.clasp.$model">
+        <option value="">Please select</option>
+        <option v-for="clasp in watchCreateFormData.clasps" :key="clasp.id" :value="clasp.id">{{clasp.name}}</option>
+      </select>
+
+
+      <h3>Case</h3>
+      <label for="bezel-material">Bezel Material</label>
+      <select id="bezel-material" v-model.trim="$v.bezelMaterial.$model">
+        <option value="">Please select</option>
+        <option v-for="bezelMaterial in watchCreateFormData.bezelMaterials" :key="bezelMaterial.id" :value="bezelMaterial.id">{{bezelMaterial.name}}</option>
+      </select>
+
+      <label for="thickness">Thickness</label>
+      <input type="text" id="thickness" v-model.trim="$v.thickness.$model" class="form-control" placeholder="Enter ...">
+
+      <label for="glass">Glass</label>
+      <select id="glass" v-model.trim="$v.glass.$model">
+        <option value="">Please select</option>
+        <option v-for="glass in watchCreateFormData.glass" :key="glass.id" :value="glass.id">{{glass.name}}</option>
+      </select>
+
+      <label for="water-resistance">Water Resistance</label>
+      <select id="water-resistance" v-model.trim="$v.waterResistance.$model">
+        <option value="">Please select</option>
+        <option v-for="waterResistance in watchCreateFormData.waterResistance" :key="waterResistance.id" :value="waterResistance.id">{{waterResistance.name}}</option>
+      </select>
+
+      <label for="dial">Dial</label>
+      <select id="dial" v-model.trim="$v.dial.$model">
+        <option value="">Please select</option>
+        <option v-for="dial in watchCreateFormData.dial" :key="dial.id" :value="dial.id">{{dial.name}}</option>
+      </select>
+
+      <label for="dial-numerals">Dial Numerals</label>
+      <select id="dial-numerals" v-model.trim="$v.dialNumeral.$model">
+        <option value="">Please select</option>
+        <option v-for="dialNumeral in watchCreateFormData.dialNumerals" :key="dialNumeral.id" :value="dialNumeral.id">{{dialNumeral.name}}</option>
+      </select>
+
+      <h3>Caliber</h3>
+
+      <label for="caliber">Movement/Caliber</label>
+      <input type="text" id="caliber" v-model.trim="$v.caliber.$model" class="form-control" placeholder="Enter ...">
+
+      <label for="base-caliber">Base caliber</label>
+      <input type="text" id="base-caliber" v-model.trim="$v.baseCaliber.$model" class="form-control" placeholder="Enter ...">
+
+      <label for="power-reserve">Power reserve</label>
+      <input type="text" id="power-reserve" v-model.trim="$v.powerReserve.$model" class="form-control" placeholder="Enter ...">
+
+      <label for="number-of-jewels">Number of jewels</label>
+      <input type="text" id="number-of-jewels" v-model.trim="$v.numberOfJewels.$model" class="form-control" placeholder="Enter ...">
+
+      <label for="frequency">Frequency</label>
+      <input type="text" id="frequency" v-model.trim="$v.frequency.$model" class="form-control" placeholder="Enter ...">
+
+
+      <h3>Watch Functions</h3>
+      <div v-for="watchFunction in watchCreateFormData.watchFunctions" :key="watchFunction.id"  class="checkbox">
+          <label>
+          <input :value="watchFunction.id" type="checkbox" v-model.trim="$v.watchFunctions.$model" >
+          {{watchFunction.name}}
+          </label>
+      </div>
+      <h3>Watch Characteristics</h3>
+      <div v-for="watchCharacteristic in watchCreateFormData.watchCharacteristics"  class="checkbox">
+        <label>
+          <input :value="watchCharacteristic.id" type="checkbox" v-model.trim="$v.watchCharacteristics.$model" >
+          {{watchCharacteristic.name}}
+        </label>
+      </div>
+
       <input type="submit" value="Submit">
 
       <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
     </form>
-
-
-              <!--<h3>Enter the most important details</h3>-->
-              <!--<div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Gender</label>-->
-                  <!--<select name="gender" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="gender in watchCreateFormData.genders" :key="gender.id"  :value="gender.id">{{gender.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Movement</label>-->
-                  <!--<select name="movement" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="movement in watchCreateFormData.movements" :key="movement.id" :value="movement.id">{{movement.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Case Material</label>-->
-                  <!--<select class="form-control select2" name="case_material" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="caseMaterial in watchCreateFormData.caseMaterials" :key="caseMaterial.id"  :value="caseMaterial.id">{{caseMaterial.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Bracelet Material</label>-->
-                  <!--<select class="form-control select2" name="bracelet_material" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="braceletMaterial in watchCreateFormData.braceletMaterials" :key="braceletMaterial.id" :value="braceletMaterial.id">{{braceletMaterial.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Case diameter</label>-->
-                  <!--<div class="input-group">-->
-                    <!--<input name="case_diameter" placeholder="Enter ..." id="caseDiameterX" type="number" class="form-control"><span class="input-group-addon">mm</span>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<h3>Bracelet/strap</h3>-->
-              <!--<div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Bracelet Color</label>-->
-                  <!--<select name="bracelet_color" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="braceletColor in watchCreateFormData.braceletColors" :key="braceletColor.id" :value="braceletColor.id">{{braceletColor.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Clasp Material</label>-->
-                  <!--<select name="calsp_material" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                      <!--<option v-for="claspMaterial in watchCreateFormData.claspMaterials" :key="claspMaterial.id" :value="claspMaterial.id">{{claspMaterial.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Clasp</label>-->
-                  <!--<select name="clasp" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="clasp in watchCreateFormData.clasps" :key="clasp.id" :value="clasp.id">{{clasp.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-
-              <!--</div>-->
-              <!--<h3>Case</h3>-->
-              <!--<div>-->
-
-                <!--<div class="form-group">-->
-                  <!--<label>Bezel Material</label>-->
-                  <!--<select name="bazel_material" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="bezelMaterial in watchCreateFormData.bezelMaterials" :key="bezelMaterial.id" :value="bezelMaterial.id">{{bezelMaterial.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Thickness</label>-->
-                  <!--<div class="input-group">-->
-                    <!--<input name="thickness" placeholder="Enter ..." id="caseDiameterX" type="number" class="form-control"><span class="input-group-addon">mm</span>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Glass</label>-->
-                  <!--<select name="glass" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="glass in watchCreateFormData.glass" :key="glass.id" :value="glass.id">{{glass.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Water Resistance</label>-->
-                  <!--<select name="water_resistance" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="waterResistance in watchCreateFormData.waterResistance" :key="waterResistance.id" :value="waterResistance.id">{{waterResistance.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Dial</label>-->
-                  <!--<select name="dial" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="dial in watchCreateFormData.dial" :key="dial.id" :value="dial.id">{{dial.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Dial Numerals</label>-->
-                  <!--<select name="dial_numerals" class="form-control select2" style="width: 100%;">-->
-                    <!--<option value="">Please select</option>-->
-                    <!--<option v-for="dialNumeral in watchCreateFormData.dialNumerals" :key="dialNumeral.id" :value="dialNumeral.id">{{dialNumeral.name}}</option>-->
-                  <!--</select>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<h3>Caliber</h3>-->
-              <!--<div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Movement/Caliber</label>-->
-                  <!--<input name="caliber" type="text" class="form-control" placeholder="Enter ...">-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Base caliber</label>-->
-                  <!--<input name="base_caliber" type="text" class="form-control" placeholder="Enter ...">-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Power reserve</label>-->
-                  <!--<div class="input-group">-->
-                    <!--<input name="power_reserve" placeholder="Enter ..." id="caseDiameterX" type="number" class="form-control"><span class="input-group-addon">h</span>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Number of jewels</label>-->
-                  <!--<input type="number" name="number_of_jewels" class="form-control" placeholder="Enter ...">-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label>Frequency</label>-->
-                  <!--<div class="input-group">-->
-                    <!--<input name="frequency" placeholder="Enter ..." id="caseDiameterX" type="number" class="form-control"><span class="input-group-addon">A/h</span>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-
-
-              <!--<h3>Functions</h3>-->
-              <!--<div>-->
-                <!--<div class="form-group" style="display: flex; flex-wrap: wrap; justify-content: space-around">-->
-                  <!--<div>-->
-                    <!--<div v-for="watchFunction in watchCreateFormData.watchFunctions" :key="watchFunction.id" v-if="watchFunction.isEven" class="checkbox">-->
-                      <!--<label>-->
-                        <!--<input :value="watchFunction.id" type="checkbox" name="watch_functions[]">-->
-                        <!--{{watchFunction.name}}-->
-                      <!--</label>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div>-->
-                    <!--<div v-for="watchFunction in watchCreateFormData.watchFunctions" :key="watchFunction.id" v-if="!watchFunction.isEven" class="checkbox">-->
-                      <!--<label>-->
-                        <!--<input :value="watchFunction.id" type="checkbox" name="watch_functions[]">-->
-                        <!--{{watchFunction.name}}-->
-                      <!--</label>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<h3>Others</h3>-->
-              <!--<div>-->
-                <!--<div class="form-group" style="display: flex; flex-wrap: wrap; justify-content: space-around">-->
-                  <!--<div>-->
-                    <!--<div v-for="watchCharacteristic in watchCreateFormData.watchCharacteristics" :key="watchCharacteristic.id" v-if="watchCharacteristic.isEven" class="checkbox">-->
-                      <!--<label>-->
-                        <!--<input :value="watchCharacteristic.id" type="checkbox" name="watch_characteristics[]">-->
-                        <!--{{watchCharacteristic.name}}-->
-                      <!--</label>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                  <!--<div>-->
-                    <!--<div v-for="watchCharacteristic in watchCreateFormData.watchCharacteristics" :key="watchCharacteristic.id" v-if="!watchCharacteristic.isEven" class="checkbox">-->
-                      <!--<label>-->
-                        <!--<input :value="watchCharacteristic.id" type="checkbox" name="watch_characteristics[]">-->
-                        <!--{{watchCharacteristic.name}}-->
-                      <!--</label>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="box-footer" style="display: flex; justify-content: flex-start">-->
-              <!--<a href="" class="btn btn-default">Cancel</a>-->
-              <!--<button type="submit" class="btn btn-primary">Save</button>-->
-            <!--</div>-->
-          <!--</form>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
   </div>
 </template>
 
@@ -227,6 +159,27 @@
           brand: '',
           model: '',
           referenceNumber: '',
+          gender: '',
+          movement: '',
+          caseMaterial: '',
+          braceletMaterial: '',
+          caseDiameter: '',
+          braceletColor: '',
+          claspMaterial: '',
+          clasp: '',
+          bezelMaterial: '',
+          thickness: '',
+          glass: '',
+          waterResistance: '',
+          dial: '',
+          dialNumeral: '',
+          caliber: '',
+          baseCaliber: '',
+          powerReserve: '',
+          numberOfJewels: '',
+          frequency: '',
+          watchFunctions: [],
+          watchCharacteristics: [],
           submitStatus: null,
           isHidden: false
         }
@@ -239,6 +192,27 @@
           required
         },
         referenceNumber: {},
+        gender: {},
+        movement: {},
+        caseMaterial: {},
+        braceletMaterial: {},
+        caseDiameter: {},
+        braceletColor: {},
+        claspMaterial: {},
+        clasp: {},
+        bezelMaterial: {},
+        thickness: {},
+        waterResistance: {},
+        dial: {},
+        dialNumeral: {},
+        glass: {},
+        caliber: {},
+        baseCaliber: {},
+        powerReserve: {},
+        numberOfJewels: {},
+        frequency: {},
+        watchFunctions: {},
+        watchCharacteristics: {}
       },
       computed: {
         ...mapGetters('authenticationServices', ['isAuthenticated']),
@@ -259,6 +233,27 @@
               'brand': this.brand,
               'model': this.model,
               'referenceNumber': this.referenceNumber,
+              'gender': this.gender,
+              'movement': this.movement,
+              'caseMaterial': this.caseMaterial,
+              'braceletMaterial': this.braceletMaterial,
+              'caseDiameter': this.caseDiameter,
+              'braceletColor': this.braceletColor,
+              'claspMaterial': this.claspMaterial,
+              'clasp': this.clasp,
+              'bezelMaterial': this.bezelMaterial,
+              'thickness': this.thickness,
+              'glass': this.glass,
+              'waterResistance': this.waterResistance,
+              'dial': this.dial,
+              'dialNumeral': this.dialNumeral,
+              'caliber': this.caliber,
+              'baseCaliber': this.baseCaliber,
+              'powerReserve': this.powerReserve,
+              'numberOfJewels': this.numberOfJewels,
+              'frequency': this.frequency,
+              'watchFunctions': this.watchFunctions,
+              'watchCharacteristics': this.watchCharacteristics
             };
             this.addWatchAction(params);
             this.submitStatus = '';

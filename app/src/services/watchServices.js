@@ -1,4 +1,4 @@
-import {LOAD_COLLECTION, LOAD_WATCH_DATA, LOAD_WATCH_PICTURES, LOAD_WATCH_CREATE_FORM_DATA, LOAD_WATCH_EDIT_FORM_DATA} from './../mutattion-types'
+import {LOAD_COLLECTION, LOAD_WATCH_DATA, LOAD_WATCH_PICTURES, LOAD_WATCH_CREATE_FORM_DATA, LOAD_WATCH_EDIT_FORM_DATA, LOAD_WATCH_FUNCTIONS, LOAD_WATCH_CHARACTERISTICS} from './../mutattion-types'
 import {ROOT_URL} from './../constants'
 import router from '@/router'
 import notify from './../plugins/notify'
@@ -38,6 +38,20 @@ const GetEditFormData = data => {
   }
 };
 
+const GetWatchFunctionsById = data => {
+  return {
+    type: LOAD_WATCH_FUNCTIONS,
+    data
+  }
+};
+
+const GetWatchCharacteristicsById = data => {
+  return {
+    type: LOAD_WATCH_CHARACTERISTICS,
+    data
+  }
+};
+
 export default {
   state: {
     watchCollection: [],
@@ -45,7 +59,9 @@ export default {
     watchPictures: {},
     watchCreateFormData: {},
     watchEditFormData: {},
-    editFormData: {}
+    editFormData: {},
+    watchFunctions: {},
+    watchCharacteristics: {}
   },
   getters: {
     getWatchCollection: state => state.watchCollection,
@@ -53,7 +69,9 @@ export default {
     watchPictures: state => state.watchPictures,
     watchCreateFormData: state => state.watchCreateFormData,
     watchEditFormData: state => state.watchEditFormData,
-    editFormData: state => state.editFormData
+    editFormData: state => state.editFormData,
+    watchFunctions: state => state.watchFunctions,
+    watchCharacteristics: state => state.watchCharacteristics
   },
   mutations: {
     LOAD_COLLECTION: (state, payload) => {
@@ -71,7 +89,13 @@ export default {
     LOAD_WATCH_EDIT_FORM_DATA: (state, payload) => {
       state.watchEditFormData = payload.data.data;
       state.editFormData = payload.data.data.watchData[0];
-    }
+    },
+    LOAD_WATCH_FUNCTIONS: (state, payload) => {
+      state.watchFunctions = payload.data.data;
+    },
+    LOAD_WATCH_CHARACTERISTICS: (state, payload) => {
+      state.watchCharacteristics = payload.data.data;
+    },
   },
   actions: {
     loadCollection(context) {
@@ -99,6 +123,42 @@ export default {
         if (data.success) {
           // notify.showInfo(data.message);
           context.commit(GetWatchData(data));
+        } else {
+          // notify.showError(data.message);
+        }
+      })
+    },
+    getWatchFunctions(context, id) {
+      let formData = new FormData();
+      formData.append('session_id', sessionStorage.getItem('session_id'));
+      formData.append('user_id', sessionStorage.getItem('user_id'));
+      formData.append('watch_id', id);
+
+      fetch(`${ROOT_URL}/home/watchFunctions`, {
+        method: 'POST',
+        body: formData,
+      }).then(res => res.json()).then((data) => {
+        if (data.success) {
+          // notify.showInfo(data.message);
+          context.commit(GetWatchFunctionsById(data));
+        } else {
+          // notify.showError(data.message);
+        }
+      })
+    },
+    getWatchCharacteristics(context, id) {
+      let formData = new FormData();
+      formData.append('session_id', sessionStorage.getItem('session_id'));
+      formData.append('user_id', sessionStorage.getItem('user_id'));
+      formData.append('watch_id', id);
+
+      fetch(`${ROOT_URL}/home/watchCharacteristics`, {
+        method: 'POST',
+        body: formData,
+      }).then(res => res.json()).then((data) => {
+        if (data.success) {
+          // notify.showInfo(data.message);
+          context.commit(GetWatchCharacteristicsById(data));
         } else {
           // notify.showError(data.message);
         }
@@ -140,45 +200,38 @@ export default {
       })
     },
     addWatchAction(context, params) {
-      // let base_caliber = ctx.params.base_caliber;
-      // let bazel_material = ctx.params.bazel_material;
-      // let bracelet_color = ctx.params.bracelet_color;
-      // let bracelet_material = ctx.params.bracelet_material;
-      // let brand = ctx.params.brand;
-      // let caliber = ctx.params.caliber;
-      // let calsp_material = ctx.params.calsp_material;
-      // let case_diameter = ctx.params.case_diameter;
-      // let case_material = ctx.params.case_material;
-      // let clasp = ctx.params.clasp;
-      // let dial = ctx.params.dial;
-      // let dial_numerals = ctx.params.dial_numerals;
-      // let frequency = ctx.params.frequency;
-      // let gender = ctx.params.gender;
-      // let glass = ctx.params.glass;
-      // let model = ctx.params.model;
-      // let movement = ctx.params.movement;
-      // let picture = ctx.params.picture;
-      // let power_reserve = ctx.params.power_reserve;
-      // let reference_number = ctx.params.reference_number;
-      // let thickness = ctx.params.thickness;
-      // let watch_characteristics = ctx.params['watch_characteristics[]'];
-      // let watch_functions = ctx.params['watch_functions[]'];
-      // let water_resistance = ctx.params.water_resistance;
-      // let number_of_jewels = ctx.params.number_of_jewels;
-
-
       let formData = new FormData();
       formData.append('session_id', sessionStorage.getItem('session_id'));
       formData.append('userId', sessionStorage.getItem('user_id'));
       formData.append('brand', params.brand);
       formData.append('model', params.model);
       formData.append('reference_number', params.referenceNumber);
+      formData.append('gender', params.gender);
+      formData.append('movement', params.movement);
+      formData.append('case_material', params.caseMaterial);
+      formData.append('bracelet_material', params.braceletMaterial);
+      formData.append('case_diameter', params.caseDiameter);
+      formData.append('bracelet_color', params.braceletColor);
+      formData.append('calsp_material', params.claspMaterial);
+      formData.append('clasp', params.clasp);
+      formData.append('bazel_material', params.bezelMaterial);
+      formData.append('thickness', params.thickness);
+      formData.append('water_resistance', params.waterResistance);
+      formData.append('dial', params.dial);
+      formData.append('dial_numerals', params.dialNumeral);
+      formData.append('glass', params.glass);
+      formData.append('caliber', params.caliber);
+      formData.append('base_caliber', params.baseCaliber);
+      formData.append('power_reserve', params.powerReserve);
+      formData.append('number_of_jewels', params.numberOfJewels);
+      formData.append('frequency', params.frequency);
+      formData.append('watch_functions', params.watchFunctions);
+      formData.append('watch_characteristics', params.watchCharacteristics);
 
       fetch(`${ROOT_URL}/home/addWatch`, {
         method: 'POST',
         body: formData,
       }).then(res => res.json()).then((data) => {
-        console.log(data);
         if (data.success) {
           notify.showInfo(data.message);
           router.push('/watch/collection')
